@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo — UPSEN AI (Kit 02, segunda instancia)</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    margin: 0;
+    padding: 60px 24px;
+    background: #f0f2f5;
+    color: #1a1a1a;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  p.sub { color: #666; margin-top: 0; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 24px; margin-top: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  code {
+    background: #eef1f4; padding: 2px 6px; border-radius: 4px; font-size: 13px;
+  }
+  pre {
+    background: #1a1a1a; color: #d4d4d4; padding: 16px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Página de demostración — UPSEN AI</h1>
+    <p class="sub">Segunda instancia del mismo kit: mismo motor de agente, mismo widget.js, distinta configuración (negocio.upsenai.md, colores y CRM propios). Esta página vive en el puerto 3001, independiente de la instancia de ClinicBot en el 3000.</p>
+
+    <div class="card">
+      <h3>Así se incrusta en cualquier página</h3>
+      <pre>&lt;script src="/widget.js"
+        data-agent-name="UPSEN AI"
+        data-color="#7c3aed"
+        data-welcome="¡Hola! Soy el asistente de UPSEN AI, ¿en qué puedo ayudarte?"&gt;&lt;/script&gt;</pre>
+      <p>Cambia <code>data-agent-name</code>, <code>data-color</code> y <code>data-welcome</code> a lo que corresponda a la marca real de UPSEN AI — es exactamente el mismo <code>widget.js</code> que usa ClinicBot, solo con otros valores.</p>
+    </div>
+  </div>
+
+  <!-- Mismo widget.js que ClinicBot, sin ningún cambio de código: solo cambian
+       los data-* de abajo. data-api-url se omite: al servirse desde el mismo
+       origen (localhost:3001 en esta instancia), el widget calcula la URL de
+       la API automáticamente — apuntará al puerto correcto de ESTA instancia. -->
+  <script src="/widget.js"
+          data-agent-name="UPSEN AI"
+          data-color="#7c3aed"
+          data-welcome="¡Hola! Soy el asistente de UPSEN AI, ¿en qué puedo ayudarte?"></script>
+</body>
+</html>
