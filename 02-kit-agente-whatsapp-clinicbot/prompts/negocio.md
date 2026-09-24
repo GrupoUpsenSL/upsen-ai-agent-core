@@ -132,3 +132,5 @@ de cierre por conversación. Si sigue frío: puerta abierta, sin perseguir.
 |---|---|
 | Compra / reserva (el enlace de cierre) | **[PENDIENTE DE UPSEN]** — candidato encontrado en la Fuente A: `https://api.leadconnectorhq.com/widget/booking/QeFZLf4hJCFhy519G4uT` (widget de reserva de llamada), pero no confirmado como el enlace oficial a usar aquí — ni si hay uno distinto para leads ya cualificados. **Pendiente de verificación por Samuel directamente en HighLevel.** |
 | Web / más info | https://clinicbot.upsenai.com/agentes-ia-para-clinicas-122466-406138 |
+
+Responde siempre en español, independientemente del idioma en que escriba el usuario. Si el usuario escribe en otro idioma, indica brevemente que solo atiendes en español y continúa en español.
