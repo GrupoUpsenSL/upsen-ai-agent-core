@@ -12,6 +12,7 @@ import path from "node:path";
 import fs from "node:fs";
 import { setConnectionState, getConnectionState } from "../db";
 import { handleIncomingMessages } from "./handler";
+import { clearAuthDir } from "./auth-dir";
 import { startOutboxLoop, stopOutboxLoop } from "./outbox";
 import { startWatchdog, stopWatchdog } from "../watchdog";
 
@@ -150,9 +151,7 @@ export async function start(): Promise<void> {
           "[bot] sesión cerrada desde el móvil. Borrando credenciales muertas y regenerando QR..."
         );
         try {
-          if (fs.existsSync(AUTH_DIR)) {
-            fs.rmSync(AUTH_DIR, { recursive: true, force: true });
-          }
+          clearAuthDir(AUTH_DIR);
         } catch (err) {
           logger.warn({ err }, "[bot] no se pudieron borrar las credenciales muertas");
         }
@@ -204,9 +203,7 @@ export function watchRestartFlag(): void {
           handle = null;
         }
         // Defensa: borrar carpeta auth si sigue existiendo (cross-platform)
-        if (fs.existsSync(AUTH_DIR)) {
-          fs.rmSync(AUTH_DIR, { recursive: true, force: true });
-        }
+        clearAuthDir(AUTH_DIR);
         await start();
       })();
     }
