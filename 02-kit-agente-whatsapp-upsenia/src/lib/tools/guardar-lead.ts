@@ -8,6 +8,7 @@ import { rememberLead, getLeadMemory } from "../memory";
 // situación y temperatura se vuelcan en la nota del agente.
 interface GuardarLeadArgs {
   nombre?: string;
+  empresa?: string;
   email?: string;
   objetivo?: string;
   situacion?: string;
@@ -27,11 +28,12 @@ export const guardarLeadDefinition: ToolDefinition = {
   function: {
     name: "guardarLead",
     description:
-      "Registra lo que vas sabiendo del lead. LLÁMALA cada vez que consigas un dato nuevo (nombre, email, objetivo, situación), aunque aún te falten otros, y CUANDO llames con el email incluye también el nombre si ya lo sabes. El lead solo entra en el CRM de ventas cuando ya tienes AL MENOS nombre Y email; hasta entonces la herramienta solo toma nota (no aparecerá en el CRM). Por eso tu misión es conseguir de forma natural, sin interrogar, el nombre y el email. Decir que lo guardas NO lo guarda: solo esta herramienta lo hace. El teléfono se toma del chat. Nunca inventes el nombre ni el email.",
+      "Registra lo que vas sabiendo del lead. LLÁMALA cada vez que consigas un dato nuevo (nombre, email, objetivo, situación), aunque aún te falten otros, y CUANDO llames con el email incluye también el nombre y el nombre de su empresa o negocio si ya los sabes. El lead solo entra en el CRM de ventas cuando ya tienes AL MENOS nombre Y email; hasta entonces la herramienta solo toma nota (no aparecerá en el CRM). Por eso tu misión es conseguir de forma natural, sin interrogar, el nombre y el email. Decir que lo guardas NO lo guarda: solo esta herramienta lo hace. El teléfono se toma del chat. Nunca inventes el nombre ni el email.",
     parameters: {
       type: "object",
       properties: {
         nombre: { type: "string", description: "Nombre REAL del lead si lo sabes. Si no lo sabes, deja vacío (no inventes 'Lead' ni 'Usuario')" },
+        empresa: { type: "string", description: "Nombre de la empresa, clínica o negocio del lead si lo sabes. Si no lo sabes, deja vacío (no lo inventes)" },
         email: { type: "string", description: "Email del lead (pídelo; debe ser real y bien escrito)" },
         objetivo: {
           type: "string",
@@ -59,6 +61,7 @@ export const guardarLeadHandler: ToolHandler<GuardarLeadArgs> = async (args) => 
 
   // Nombre real solamente: descartamos los genéricos que el modelo inventa.
   const nombre = args.nombre && !NOMBRE_PLACEHOLDER.test(args.nombre.trim()) ? args.nombre.trim() : undefined;
+  const empresa = args.empresa && !NOMBRE_PLACEHOLDER.test(args.empresa.trim()) ? args.empresa.trim() : undefined;
   const objetivo = args.objetivo?.trim() || undefined;
   const situacion = args.situacion?.trim() || undefined;
   const temperatura = args.temperatura?.trim() || undefined;
@@ -127,6 +130,7 @@ export const guardarLeadHandler: ToolHandler<GuardarLeadArgs> = async (args) => 
     try {
       const res = await upsertLeadHighlevel(phone, {
         nombre: nombreFinal,
+        empresa,
         email: emailFinal,
         negocio: (objetivo || mem?.objetivo) as string | undefined,
         necesidad: notas,
