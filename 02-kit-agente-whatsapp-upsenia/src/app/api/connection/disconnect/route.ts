@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import { setConnectionState } from "@/lib/db";
+import { clearAuthDir } from "@/lib/baileys/auth-dir";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +18,7 @@ export async function POST(): Promise<NextResponse> {
   });
 
   // Borrar la sesión de Baileys (cross-platform)
-  if (fs.existsSync(AUTH_DIR)) {
-    fs.rmSync(AUTH_DIR, { recursive: true, force: true });
-  }
+  clearAuthDir(AUTH_DIR);
 
   // Crear flag para que el proceso del bot reinicie
   if (!fs.existsSync(DATA_DIR)) {
