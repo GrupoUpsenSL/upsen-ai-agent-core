@@ -45,6 +45,7 @@ export function leadPhone(conversationId: number, fallback?: string): string {
 
 export interface LeadData {
   nombre?: string;
+  empresa?: string; // nombre de la empresa/clínica/negocio del lead → campo estándar companyName
   email?: string;
   negocio?: string;
   necesidad?: string;
@@ -206,6 +207,7 @@ export async function upsertContact(phone: string, data: LeadData): Promise<Upse
   if (existing) {
     const body: Record<string, unknown> = {};
     if (data.nombre) body.name = data.nombre;
+    if (data.empresa) body.companyName = data.empresa;
     if (data.email) {
       if (emailOwner && emailOwner.id !== existing.id) {
         aviso.push(`el email ya pertenece a otro contacto (${emailOwner.id}); no se cambia`);
@@ -220,6 +222,7 @@ export async function upsertContact(phone: string, data: LeadData): Promise<Upse
   if (emailOwner) {
     const body: Record<string, unknown> = {};
     if (data.nombre) body.name = data.nombre;
+    if (data.empresa) body.companyName = data.empresa;
     if (!digits(emailOwner.phone)) body.phone = phone;
     else aviso.push(`contacto encontrado por email con otro teléfono (${emailOwner.phone}); no se modifica`);
     return updateContact(emailOwner.id, body, customFields, aviso);
@@ -231,6 +234,7 @@ export async function upsertContact(phone: string, data: LeadData): Promise<Upse
     phone,
   };
   if (data.nombre) body.name = data.nombre;
+  if (data.empresa) body.companyName = data.empresa;
   if (data.email) body.email = data.email;
   if (customFields.length) body.customFields = customFields;
 
